@@ -1,22 +1,22 @@
 {
   "name": "playwright-cucumber-booking-e2e",
   "version": "1.0.0",
-  "description": "Interview-ready Playwright + Cucumber BDD project with date picker - Booking Portal",
+  "description": "Interview-ready Playwright + Cucumber BDD project with date picker - Booking Portal (JavaScript)",
   "scripts": {
     "test": "cucumber-js",
     "test:smoke": "cucumber-js --profile smoke",
     "test:datepicker": "TAGS=@datepicker cucumber-js",
     "test:regression": "TAGS=@regression cucumber-js",
-    "test:playwright": "playwright test",
-    "test:playwright:headed": "playwright test --headed",
-    "test:playwright:chromium": "playwright test --project=chromium",
+    "test:playwright": "playwright test --config=playwright.config.js",
+    "test:playwright:headed": "playwright test --config=playwright.config.js --headed",
+    "test:playwright:chromium": "playwright test --config=playwright.config.js --project=chromium",
     "serve": "npx serve app -p 3000",
     "report:open": "open reports/playwright-html/index.html"
   },
   "keywords": [
     "playwright",
     "cucumber",
-    "typescript",
+    "javascript",
     "bdd",
     "e2e",
     "date-picker"
@@ -26,11 +26,8 @@
   "devDependencies": {
     "@cucumber/cucumber": "^10.3.0",
     "@playwright/test": "^1.44.0",
-    "@types/node": "^20.0.0",
     "date-fns": "^3.6.0",
     "serve": "^14.2.0",
-    "ts-node": "^10.9.0",
-    "typescript": "^5.4.0",
     "wait-on": "^7.2.0"
   }
 }

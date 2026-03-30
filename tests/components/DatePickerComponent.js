@@ -1,46 +1,43 @@
-import { Page, Locator, expect } from '@playwright/test';
-import { format, addDays } from 'date-fns';
+const { expect } = require('@playwright/test');
+const { format, addDays } = require('date-fns');
 
-export class DatePickerComponent {
-  private page: Page;
-  private prefix: 'departure' | 'return';
-
-  constructor(page: Page, prefix: 'departure' | 'return') {
+class DatePickerComponent {
+  constructor(page, prefix) {
     this.page = page;
     this.prefix = prefix;
   }
 
-  get input(): Locator {
+  get input() {
     return this.page.getByTestId(`${this.prefix}-date-input`);
   }
 
-  get calendar(): Locator {
+  get calendar() {
     return this.page.getByTestId(`${this.prefix}-calendar`);
   }
 
-  get nextMonthBtn(): Locator {
+  get nextMonthBtn() {
     return this.calendar.getByTestId('next-month');
   }
 
-  get prevMonthBtn(): Locator {
+  get prevMonthBtn() {
     return this.calendar.getByTestId('prev-month');
   }
 
-  get calendarHeader(): Locator {
+  get calendarHeader() {
     return this.calendar.getByTestId('calendar-header');
   }
 
-  async open(): Promise<void> {
+  async open() {
     await this.input.click();
     await expect(this.calendar).toBeVisible();
   }
 
-  async close(): Promise<void> {
+  async close() {
     await this.input.press('Escape');
     await expect(this.calendar).toBeHidden();
   }
 
-  async selectDateByOffset(daysFromToday: number): Promise<string> {
+  async selectDateByOffset(daysFromToday) {
     const targetDate = addDays(new Date(), daysFromToday);
     const dateStr = format(targetDate, 'yyyy-MM-dd');
     await this.open();
@@ -50,23 +47,20 @@ export class DatePickerComponent {
     return format(targetDate, 'dd MMM yyyy');
   }
 
-  async navigateToMonth(targetYearMonth: string): Promise<void> {
+  async navigateToMonth(targetYearMonth) {
     const [targetYear, targetMonthStr] = targetYearMonth.split('-');
     const targetMonthNum = parseInt(targetMonthStr, 10);
 
     for (let i = 0; i < 24; i++) {
       const headerText = await this.calendarHeader.innerText();
-      if (
-        headerText.includes(targetYear) &&
-        this.monthMatches(headerText, targetMonthNum)
-      ) {
+      if (headerText.includes(targetYear) && this._monthMatches(headerText, targetMonthNum)) {
         break;
       }
       await this.nextMonthBtn.click();
     }
   }
 
-  private monthMatches(headerText: string, monthNumber: number): boolean {
+  _monthMatches(headerText, monthNumber) {
     const months = [
       'January', 'February', 'March', 'April', 'May', 'June',
       'July', 'August', 'September', 'October', 'November', 'December',
@@ -74,30 +68,30 @@ export class DatePickerComponent {
     return headerText.includes(months[monthNumber - 1]);
   }
 
-  async navigateNextMonth(): Promise<void> {
+  async navigateNextMonth() {
     await this.nextMonthBtn.click();
   }
 
-  async navigatePrevMonth(): Promise<void> {
+  async navigatePrevMonth() {
     await this.prevMonthBtn.click();
   }
 
-  async getHeaderText(): Promise<string> {
+  async getHeaderText() {
     return this.calendarHeader.innerText();
   }
 
-  async isDateDisabled(dateStr: string): Promise<boolean> {
+  async isDateDisabled(dateStr) {
     const cell = this.page.locator(`[data-date="${dateStr}"]`);
     const classes = await cell.getAttribute('class');
-    return classes?.includes('disabled') ?? true;
+    return classes ? classes.includes('disabled') : true;
   }
 
-  async getFirstAvailableDate(): Promise<string | null> {
+  async getFirstAvailableDate() {
     const cells = this.calendar.locator('[data-date]');
     const count = await cells.count();
     for (let i = 0; i < count; i++) {
       const cell = cells.nth(i);
-      const classes = (await cell.getAttribute('class')) ?? '';
+      const classes = (await cell.getAttribute('class')) || '';
       if (!classes.includes('disabled')) {
         return cell.getAttribute('data-date');
       }
@@ -105,10 +99,10 @@ export class DatePickerComponent {
     return null;
   }
 
-  async getAllDisabledDates(): Promise<string[]> {
+  async getAllDisabledDates() {
     const cells = this.calendar.locator('[data-date].disabled');
     const count = await cells.count();
-    const dates: string[] = [];
+    const dates = [];
     for (let i = 0; i < count; i++) {
       const d = await cells.nth(i).getAttribute('data-date');
       if (d) dates.push(d);
@@ -116,7 +110,9 @@ export class DatePickerComponent {
     return dates;
   }
 
-  async getInputValue(): Promise<string> {
+  async getInputValue() {
     return this.input.inputValue();
   }
 }
+
+module.exports = { DatePickerComponent };

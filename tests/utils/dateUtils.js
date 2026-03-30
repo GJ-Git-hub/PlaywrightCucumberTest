@@ -1,28 +1,30 @@
-import { format, addDays, isBefore, parseISO } from 'date-fns';
+const { format, addDays, isBefore, parseISO } = require('date-fns');
 
-export function getFutureDate(daysFromToday: number): Date {
+function getFutureDate(daysFromToday) {
   return addDays(new Date(), daysFromToday);
 }
 
-export function formatDate(date: Date, pattern = 'dd MMM yyyy'): string {
+function formatDate(date, pattern = 'dd MMM yyyy') {
   return format(date, pattern);
 }
 
-export function formatDateISO(date: Date): string {
+function formatDateISO(date) {
   return format(date, 'yyyy-MM-dd');
 }
 
-export function isPastDate(dateStr: string): boolean {
+function isPastDate(dateStr) {
   const date = parseISO(dateStr);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
   return isBefore(date, today);
 }
 
-export function getMonthName(monthIndex: number): string {
+function getMonthName(monthIndex) {
   const months = [
     'January', 'February', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December',
   ];
   return months[monthIndex];
 }
+
+module.exports = { getFutureDate, formatDate, formatDateISO, isPastDate, getMonthName };

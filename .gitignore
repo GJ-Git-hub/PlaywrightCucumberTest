@@ -8,4 +8,7 @@ cucumber-report.html
 assets
 features
 @rerun.txt
-index.html
+/index.html
+dist/
+reports/
+package-lock.json

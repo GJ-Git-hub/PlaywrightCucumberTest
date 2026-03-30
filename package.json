@@ -1,29 +1,36 @@
 {
-  "name": "play-ts-cucumber",
+  "name": "playwright-cucumber-booking-e2e",
   "version": "1.0.0",
-  "description": "Playwright Cucumber TS framework - The easiest way to learn",
-  "main": "index.js",
+  "description": "Interview-ready Playwright + Cucumber BDD project with date picker - Booking Portal",
   "scripts": {
-    "pretest": "npx ts-node src/helper/report/init.ts",
-    "test": "cross-env ENV=prod FORCE_COLOR=0 cucumber-js test",
-    "posttest": "npx ts-node src/helper/report/report.ts",
-    "test:failed": "cucumber-js -p rerun @rerun.txt"
+    "test": "cucumber-js",
+    "test:smoke": "cucumber-js --profile smoke",
+    "test:datepicker": "TAGS=@datepicker cucumber-js",
+    "test:regression": "TAGS=@regression cucumber-js",
+    "test:playwright": "playwright test",
+    "test:playwright:headed": "playwright test --headed",
+    "test:playwright:chromium": "playwright test --project=chromium",
+    "serve": "npx serve app -p 3000",
+    "report:open": "open reports/playwright-html/index.html"
   },
   "keywords": [
+    "playwright",
     "cucumber",
-    "cucumber - TS",
-    "playwright-cucumber"
+    "typescript",
+    "bdd",
+    "e2e",
+    "date-picker"
   ],
-  "author": "Koushik @LetCode with Koushik",
+  "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@cucumber/cucumber": "^9.0.1",
-    "@playwright/test": "^1.31.2",
-    "cross-env": "^7.0.3",
-    "dotenv": "^16.0.3",
-    "fs-extra": "^11.1.1",
-    "multiple-cucumber-html-reporter": "^3.3.0",
-    "ts-node": "^10.9.1",
-    "winston": "^3.8.2"
+    "@cucumber/cucumber": "^10.3.0",
+    "@playwright/test": "^1.44.0",
+    "@types/node": "^20.0.0",
+    "date-fns": "^3.6.0",
+    "serve": "^14.2.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.4.0",
+    "wait-on": "^7.2.0"
   }
 }

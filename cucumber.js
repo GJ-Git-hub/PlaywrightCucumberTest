@@ -2,11 +2,10 @@ module.exports = {
   default: {
     paths: ['tests/features/**/*.feature'],
     require: [
-      'tests/support/world.ts',
-      'tests/hooks/hooks.ts',
-      'tests/step-definitions/**/*.ts',
+      'tests/support/world.js',
+      'tests/hooks/hooks.js',
+      'tests/step-definitions/**/*.js',
     ],
-    requireModule: ['ts-node/register'],
     format: [
       'progress-bar',
       'html:reports/cucumber-html/index.html',
@@ -23,11 +22,10 @@ module.exports = {
   smoke: {
     paths: ['tests/features/**/*.feature'],
     require: [
-      'tests/support/world.ts',
-      'tests/hooks/hooks.ts',
-      'tests/step-definitions/**/*.ts',
+      'tests/support/world.js',
+      'tests/hooks/hooks.js',
+      'tests/step-definitions/**/*.js',
     ],
-    requireModule: ['ts-node/register'],
     tags: '@smoke',
     format: ['progress-bar', 'html:reports/cucumber-html/smoke-index.html'],
     formatOptions: { snippetInterface: 'async-await' },

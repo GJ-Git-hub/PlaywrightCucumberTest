@@ -9,3 +9,6 @@ assets
 features
 @rerun.txt
 index.html
+dist/
+reports/
+package-lock.json

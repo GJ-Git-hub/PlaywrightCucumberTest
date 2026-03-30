@@ -6,8 +6,6 @@ import { DatePickerComponent } from '../components/DatePickerComponent';
 import { BookingPage } from '../pages/BookingPage';
 import { getMonthName, isPastDate } from '../utils/dateUtils';
 
-const APP_URL = process.env.APP_URL || 'http://localhost:3000';
-
 function getDeparturePicker(world: ICustomWorld): DatePickerComponent {
   return new DatePickerComponent(world.page, 'departure');
 }

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>✈️ SkyBook - Flight Booking Portal</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <header class="portal-header">
+      <h1>✈️ SkyBook</h1>
+      <p class="tagline">Flight Booking Portal</p>
+    </header>
+
+    <main class="booking-card">
+      <!-- Trip Type Toggle -->
+      <div class="trip-type-group" role="radiogroup" aria-label="Trip type">
+        <label class="radio-label" data-testid="label-one-way">
+          <input type="radio" name="trip-type" value="one-way" data-testid="trip-one-way" checked />
+          <span class="radio-custom"></span>
+          One Way
+        </label>
+        <label class="radio-label" data-testid="label-round-trip">
+          <input type="radio" name="trip-type" value="round-trip" data-testid="trip-round-trip" />
+          <span class="radio-custom"></span>
+          Round Trip
+        </label>
+      </div>
+
+      <form id="booking-form" novalidate>
+        <!-- From / To Row -->
+        <div class="form-row">
+          <div class="form-group">
+            <label for="from-city">From</label>
+            <input
+              type="text"
+              id="from-city"
+              data-testid="from-city"
+              placeholder="City or airport"
+              autocomplete="off"
+            />
+            <span class="error-msg" data-testid="error-from" role="alert"></span>
+          </div>
+
+          <div class="swap-icon" aria-hidden="true">⇄</div>
+
+          <div class="form-group">
+            <label for="to-city">To</label>
+            <input
+              type="text"
+              id="to-city"
+              data-testid="to-city"
+              placeholder="City or airport"
+              autocomplete="off"
+            />
+            <span class="error-msg" data-testid="error-to" role="alert"></span>
+          </div>
+        </div>
+
+        <!-- Date Row -->
+        <div class="form-row date-row">
+          <!-- Departure Date Picker -->
+          <div class="form-group date-picker-wrapper" id="departure-picker-wrapper">
+            <label for="departure-date-input">Departure Date</label>
+            <div class="date-input-container">
+              <input
+                type="text"
+                id="departure-date-input"
+                data-testid="departure-date-input"
+                placeholder="Select date"
+                readonly
+                aria-haspopup="true"
+                aria-expanded="false"
+              />
+              <span class="calendar-icon" aria-hidden="true">📅</span>
+            </div>
+            <span class="error-msg" data-testid="error-departure" role="alert"></span>
+
+            <!-- Departure Calendar Popup -->
+            <div
+              class="calendar-popup"
+              data-testid="departure-calendar"
+              id="departure-calendar"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Departure date picker"
+              hidden
+            >
+              <div class="calendar-nav">
+                <button type="button" class="nav-btn" data-testid="prev-month" aria-label="Previous month">&#8249;</button>
+                <span class="calendar-header" data-testid="calendar-header" id="departure-calendar-header"></span>
+                <button type="button" class="nav-btn" data-testid="next-month" aria-label="Next month">&#8250;</button>
+              </div>
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="calendar-days" id="departure-calendar-days" role="grid"></div>
+            </div>
+          </div>
+
+          <!-- Return Date Picker -->
+          <div class="form-group date-picker-wrapper return-section" id="return-picker-wrapper">
+            <label for="return-date-input">Return Date</label>
+            <div class="date-input-container">
+              <input
+                type="text"
+                id="return-date-input"
+                data-testid="return-date-input"
+                placeholder="Select date"
+                readonly
+                aria-haspopup="true"
+                aria-expanded="false"
+                disabled
+              />
+              <span class="calendar-icon" aria-hidden="true">📅</span>
+            </div>
+            <span class="error-msg" data-testid="error-return" role="alert"></span>
+
+            <!-- Return Calendar Popup -->
+            <div
+              class="calendar-popup"
+              data-testid="return-calendar"
+              id="return-calendar"
+              role="dialog"
+              aria-modal="true"
+              aria-label="Return date picker"
+              hidden
+            >
+              <div class="calendar-nav">
+                <button type="button" class="nav-btn" data-testid="prev-month" aria-label="Previous month">&#8249;</button>
+                <span class="calendar-header" data-testid="calendar-header" id="return-calendar-header"></span>
+                <button type="button" class="nav-btn" data-testid="next-month" aria-label="Next month">&#8250;</button>
+              </div>
+              <div class="calendar-weekdays" aria-hidden="true">
+                <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span>
+              </div>
+              <div class="calendar-days" id="return-calendar-days" role="grid"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Passenger + Cabin Row -->
+        <div class="form-row options-row">
+          <div class="form-group passenger-group">
+            <label>Passengers</label>
+            <div class="stepper" role="group" aria-label="Passenger count">
+              <button type="button" class="stepper-btn" data-testid="passenger-minus" aria-label="Decrease passengers">−</button>
+              <span class="stepper-value" data-testid="passenger-count" aria-live="polite">1</span>
+              <button type="button" class="stepper-btn" data-testid="passenger-plus" aria-label="Increase passengers">+</button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cabin-class">Cabin Class</label>
+            <select id="cabin-class" data-testid="cabin-class">
+              <option value="Economy">Economy</option>
+              <option value="Business">Business</option>
+              <option value="First Class">First Class</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Search Button -->
+        <div class="form-row">
+          <button type="submit" class="search-btn" data-testid="search-btn">
+            🔍 Search Flights
+          </button>
+        </div>
+      </form>
+    </main>
+
+    <!-- Results Section -->
+    <section class="results-section" data-testid="results-section" id="results-section" hidden>
+      <h2>✅ Search Results</h2>
+      <div class="results-card">
+        <div class="result-row">
+          <span class="result-label">Route</span>
+          <span class="result-value" id="result-route"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Trip Type</span>
+          <span class="result-value" id="result-trip-type"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Departure</span>
+          <span class="result-value" id="result-departure"></span>
+        </div>
+        <div class="result-row return-result-row">
+          <span class="result-label">Return</span>
+          <span class="result-value" id="result-return"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Passengers</span>
+          <span class="result-value" id="result-passengers"></span>
+        </div>
+        <div class="result-row">
+          <span class="result-label">Cabin Class</span>
+          <span class="result-value" id="result-cabin"></span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
